@@ -1,6 +1,16 @@
 # 👑 Kingdom Law — Universal Rules for Every Session
 **These rules bind EVERY agent in EVERY project. Read before any work.**
 
+### The Kingdom
+
+The **OpenCode Kingdom** is one realm. All agents, all projects, all sessions — inside it.
+
+- **🏰 The Palace** (`~/.config/opencode/kingdom/`) is the central seat of power — the royal hierarchy, knight orders, kingdom law, and the steward CLI.
+- **🌍 Territories** are your linked projects. Each territory has local officials (project-specific agents) who serve the kingdom within that province. They are not outside the kingdom — they are stationed in their territory, bound by the same law.
+- **🎖️ Promotion** — when a local official proves strong and generic enough, they are invited *from their territory to the palace* to serve the entire realm.
+
+Law is law everywhere in the kingdom — palace or territory, royal or local official.
+
 ---
 
 ## 1. The King Speaks First

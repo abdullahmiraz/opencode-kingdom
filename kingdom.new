@@ -2,18 +2,18 @@
 set -euo pipefail
 
 # ============================================================
-# 👑 OpenCode Kingdom — Palace steward for the realm
+# 👑 OpenCode Kingdom — Single CLI to Rule All Projects
 # ============================================================
 # Usage:
 #   ./kingdom                        Show help
-#   ./kingdom init [path]            Establish a new territory
-#   ./kingdom link <path>            Swear existing project to kingdom
-#   ./kingdom promote <agent-file>   Invite territory official → palace
-#   ./kingdom promote --role king    Install as royal agent
-#   ./kingdom backup                 Mirror the palace → backup/
-#   ./kingdom restore                Regenerate the palace from backup/
-#   ./kingdom sync [path]            Spread palace updates to territories
-#   ./kingdom status                 Survey the realm
+#   ./kingdom init [path]            Bootstrap a project
+#   ./kingdom link <path>            Link existing project
+#   ./kingdom promote <agent-file>   Promote agent → kingdom
+#   ./kingdom promote --role king    Promote as royal agent
+#   ./kingdom backup                 Mirror kingdom → backup/
+#   ./kingdom restore                Restore kingdom from backup/
+#   ./kingdom sync [path]            Push updates to project(s)
+#   ./kingdom status                 Show version + linked projects
 #   ./kingdom version                Show version number
 # ============================================================
 
@@ -36,19 +36,19 @@ header(){ echo -e "\n${BOLD}${PURPLE}═══ $1 ═══${NC}\n"; }
 # ─── Help ─────────────────────────────────────────────────────
 show_help() {
     echo -e "${BOLD}👑 OpenCode Kingdom v${KINGDOM_VERSION}${NC}"
-    echo "Palace steward — manage the realm territories from the central seat."
+    echo "Single CLI to manage all your OpenCode projects."
     echo ""
     echo -e "${BOLD}USAGE${NC}"
     echo "  ./kingdom <command> [options]"
     echo ""
     echo -e "${BOLD}COMMANDS${NC}"
-    echo -e "  ${GREEN}init${NC}       [path]           Establish a new territory"
-    echo -e "  ${GREEN}link${NC}       <path>           Swear an existing project to the kingdom"
-    echo -e "  ${GREEN}promote${NC}    <agent-file>     Invite a territory official to the palace"
-    echo -e "  ${GREEN}backup${NC}                      Mirror the palace to backup/"
-    echo -e "  ${GREEN}restore${NC}                     Regenerate the palace from backup/"
-    echo -e "  ${GREEN}sync${NC}       [path]           Spread palace updates to territories"
-    echo -e "  ${GREEN}status${NC}                      Survey the realm"
+    echo -e "  ${GREEN}init${NC}       [path]           Bootstrap a new project with kingdom agents"
+    echo -e "  ${GREEN}link${NC}       <path>           Link an existing project under the kingdom"
+    echo -e "  ${GREEN}promote${NC}    <agent-file>     Promote a project agent to the kingdom"
+    echo -e "  ${GREEN}backup${NC}                      Mirror kingdom to backup/"
+    echo -e "  ${GREEN}restore${NC}                     Restore kingdom from backup/"
+    echo -e "  ${GREEN}sync${NC}       [path]           Push kingdom updates to project(s)"
+    echo -e "  ${GREEN}status${NC}                      Show kingdom version + linked projects"
     echo -e "  ${GREEN}version${NC}                     Show version number"
     echo ""
     echo -e "${BOLD}EXAMPLES${NC}"
@@ -59,7 +59,7 @@ show_help() {
     echo "  ./kingdom backup"
     echo ""
     echo -e "${BOLD}LEARN MORE${NC}"
-    echo "  https://github.com/abdullahmiraz/opencode-kingdom"
+    echo "  https://github.com/YOUR_ORG/opencode-kingdom"
 }
 
 # ─── Command: version ─────────────────────────────────────────
@@ -69,7 +69,7 @@ cmd_version() {
 
 # ─── Command: status ──────────────────────────────────────────
 cmd_status() {
-    header "🏰 Palace Status"
+    header "Kingdom Status"
     echo "Version: ${KINGDOM_VERSION}"
     echo "Path:    ${KINGDOM_DIR}"
     echo ""
@@ -91,14 +91,14 @@ cmd_status() {
     echo ""
     if [ -f "$BACKUP_DIR/BACKUP_MANIFEST.txt" ]; then
         BACKUP_DATE=$(head -2 "$BACKUP_DIR/BACKUP_MANIFEST.txt" | grep "Backup Date" | cut -d: -f2- | xargs)
-        ok "Palace backup exists (last: ${BACKUP_DATE})"
+        ok "Backup exists (last: ${BACKUP_DATE})"
     else
-        warn "No palace backup found. Run: ./kingdom backup"
+        warn "No backup found. Run: ./kingdom backup"
     fi
 
     # Find linked projects
     echo ""
-    echo -e "${BOLD}🌍 Territories (Linked Projects):${NC}"
+    echo -e "${BOLD}Linked Projects:${NC}"
     LINKED=0
     # Check some common locations + the kingdom-link.txt files
     while IFS= read -r -d '' linkfile; do
@@ -128,7 +128,7 @@ cmd_status() {
         warn "No linked projects found."
     fi
     echo ""
-    echo -e "${BOLD}🌍 ${LINKED} total territor(ies/y) linked to the kingdom${NC}"
+    echo -e "${BOLD}📦 ${LINKED} total project(s) linked${NC}"
 }
 
 # ─── Command: backup ──────────────────────────────────────────
@@ -454,7 +454,7 @@ cmd_sync() {
         if [ -f "$SPECIFIC_PATH/.opencode/kingdom/kingdom-link.txt" ]; then
             COLLECT_PATHS+=("$SPECIFIC_PATH")
         else
-            err "No territory link at ${SPECIFIC_PATH}"
+            err "No kingdom link at ${SPECIFIC_PATH}"
             exit 1
         fi
     else

@@ -1,18 +1,44 @@
 # 👑 OpenCode Kingdom
 
-A **single source of truth** for OpenCode agents — reusable across every project in your portfolio.
+A canonical, reusable agent hierarchy — the **Palace** at the center, **Territories** (your projects) bound by common law.
 
-## Architecture
+The kingdom is one realm. There is no "inside vs outside." Every agent, every project, every rule — all part of the same kingdom.
+
+---
+
+## 🏰 The Kingdom
 
 ```
-kingdom/
-├── king/           # Royal agents (King, Queen, Princes)
-├── knights/        # Sub-agent knights (doers)
-├── backup/         # Auto-mirrored clone for regeneration
-├── projects/       # Lightweight project registrations
-├── scripts/        # Bash scripts for kingdom operations
-├── opencode.kingdom.json  # Canonical agent config
-└── RULES.kingdom.md       # Universal kingdom law
+OPENCODE KINGDOM (~/.config/opencode/kingdom/)
+│
+├── 🏰 PALACE (central seat of power)
+│   ├── 👑 King Sisyphus       — always-running orchestrator
+│   ├── 👸 Queen Metis         — wisdom, context, self-improvement
+│   ├── 🫅 Prince of Memory    — state, tasks, decisions
+│   ├── 🫅 Prince of Code      — building, quality enforcement
+│   ├── 🫅 Prince of Git       — commit discipline, history
+│   └── 🛡️ 10 Knight Orders    — sub-agent specialists
+│
+│   Palace files:
+│   ├── king/                  — royal agent definitions
+│   ├── knights/               — knight agent definitions
+│   ├── opencode.kingdom.json  — canonical agent registry
+│   └── RULES.kingdom.md       — universal kingdom law
+│
+├── 🌍 TERRITORIES (linked projects)
+│   ├── RxPro                  — first province of the kingdom
+│   ├── project-b              — next province
+│   └── ...
+│
+├── 🗡️ KINGDOM STEWARD (./kingdom CLI)
+│   ├── init                   — establish a new territory
+│   ├── link                   — swear a project to the kingdom
+│   ├── sync                   — spread palace updates to territories
+│   ├── promote                — invite a local official to the palace
+│   ├── backup / restore       — preserve & regenerate
+│   └── status                 — survey the realm
+│
+└── 📦 backup/                 — palace mirror (instant regeneration)
 ```
 
 ## The Royal Hierarchy
@@ -36,33 +62,45 @@ kingdom/
       └── commit-executor
 ```
 
+## Territories (Linked Projects)
+
+Every project under the kingdom is a **territory**. It has:
+- **Local officials** — project-specific agents (`rxpro-manager`, `rxpro-builder`, etc.) that serve the kingdom within that province
+- **Kingdom law** — `RULES.md` derived from `RULES.kingdom.md` with territory-specific additions
+- **Oath of fealty** — `kingdom-link.txt` in `.opencode/kingdom/`
+
+Local officials are **not excluded from the kingdom**. They are stationed in their territory doing kingdom work — the same as knights stationed in a castle town. When a local official proves strong and generic enough, they can be **promoted to the palace** to serve the entire realm.
+
 ## Quick Start
 
 ```bash
-# Initialize a new project with the kingdom
-bash scripts/init-project.sh \
-  --name "my-project" \
-  --path /path/to/my-project
+# Establish a new territory
+./kingdom init ~/projects/my-app
 
-# After updating kingdom agents, sync to all projects
-bash scripts/sync-down.sh
+# Link an existing project
+./kingdom link .
 
-# If kingdom is destroyed, regenerate from backup instantly
-bash scripts/regenerate.sh
+# After updating palace agents, spread to all territories
+./kingdom sync
 
-# After every kingdom change, update backup
-bash scripts/sync-backup.sh
+# If the palace is destroyed, regenerate instantly
+./kingdom restore
 
-# Promote a good project-specific agent to the kingdom
-bash scripts/promote-agent.sh \
-  --name "my-agent" \
-  --role knights \
-  --from /path/to/project/.opencode/agents/my-agent.md
+# Invite a strong local official to the palace
+./kingdom promote ./territory-agent.md
+
+# Survey the realm
+./kingdom status
 ```
 
 ## Principles
 
-1. **Only the strong survive** — agents must be generic and proven to join the kingdom. Weak/project-specific agents stay in their project.
-2. **Instant regeneration** — `backup/` is a clone. If the kingdom is destroyed, one command restores it.
-3. **Never duplicated** — project agents are generated from the kingdom, not manually copied.
-4. **Self-improving** — new agents born in projects can be promoted to the kingdom via `promote-agent.sh`.
+1. **One kingdom** — there is no "generic vs project-specific" in the exclusionary sense. Every agent is part of the kingdom. Palace agents serve the realm. Territory officials serve their province. All serve the kingdom.
+2. **Instant regeneration** — `backup/` mirrors the palace. If destroyed, one command restores it.
+3. **Never duplicated** — territory agents are synced from the palace, never manually copied.
+4. **Self-improving** — strong territory officials can be promoted to the palace.
+5. **Common law, local rule** — `RULES.kingdom.md` is universal. Territories add their own constraints without contradicting the law.
+
+## License
+
+MIT

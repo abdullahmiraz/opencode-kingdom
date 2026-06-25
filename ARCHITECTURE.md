@@ -414,7 +414,57 @@ security-review         Vulnerability audit, exploitability
 
 ---
 
-## 9. The Steward CLI — Kingdom Tooling
+## 9. Agent Runtime — Models & Providers
+
+Every territory (project) inherits the kingdom's agent runtime configuration from `oh-my-openagent.jsonc`. The runtime controls which models power which agents.
+
+### Provider
+- **OpenCode Go** (`opencode-go`) — $10/mo subscription ($60/mo cap)
+- Models are accessible via the format `opencode-go/<model-id>`
+- Stale providers (`freellmapi`, `openai`) are **disabled** in the config
+
+### Model Tiers
+
+```
+🧠 HIGH-THINKING    minimax-m3       $0.30 / $1.20 per 1M tokens
+   Used by: deep, ultrabrain, oracle
+   3,200 requests per 5-hour window
+
+⚡ DEFAULT           deepseek-v4-flash $0.14 / $0.28 per 1M tokens
+   Used by: unspecified-high, sisyphus-junior, explore, librarian
+   31,000 requests per 5-hour window
+
+🚀 FAST              mimo-v2.5        $0.14 / $0.28 per 1M tokens
+   Used by: quick, unspecified-low
+   30,000 requests per 5-hour window
+```
+
+### Category → Model Mapping
+
+```
+task(category="ultrabrain", ...)     →  minimax-m3      (hard logic)
+task(category="deep", ...)            →  minimax-m3      (research/audit)
+task(category="visual-engineering")  →  deepseek-v4-flash (UI work)
+task(category="unspecified-high")    →  deepseek-v4-flash (general)
+task(category="quick")               →  mimo-v2.5        (trivial)
+task(category="unspecified-low")     →  mimo-v2.5        (cheapest)
+```
+
+### Subagent Model Mapping
+
+```
+subagent_type="oracle"    →  minimax-m3        (architecture/debugging)
+subagent_type="explore"   →  deepseek-v4-flash (codebase search)
+subagent_type="librarian" →  deepseek-v4-flash (external research)
+```
+
+### Config File
+```
+~/.config/opencode/oh-my-openagent.jsonc
+```
+This config is universal across all territories. Override per-project via `.opencode/oh-my-openagent.jsonc`.
+
+## 10. The Steward CLI — Kingdom Tooling
 
 ```
 ./kingdom
@@ -449,7 +499,7 @@ security-review         Vulnerability audit, exploitability
 
 ---
 
-## 10. Legend — Symbols Used
+## 11. Legend — Symbols Used
 
 ```
 👑  KING       — primary agent, always running

@@ -60,6 +60,13 @@ Every commit must:
 ## 7. Bugfix Rule
 Fix minimally. NEVER refactor while fixing. The goal is to fix the bug with the smallest change possible. Refactoring comes in a separate session.
 
+## 7.5 Verify Before Asserting
+NEVER declare code "dead", "not running", or "broken" without verification:
+1. **Search online/docs first** — framework conventions change (e.g., Next.js 16 renamed middleware → proxy). Check official docs before assuming something is wrong.
+2. **Check actual build output** — `npm run build` shows registered functions with `ƒ` prefix. If it's in the output, it's running.
+3. **Trace the code path** — read config, imports, wiring. Don't rely on naming conventions alone.
+4. **Uncertain? Say so.** — "I cannot verify this" preserves trust. False positives waste time and erode confidence.
+
 ## 8. Architecture Constraints
 - Follow existing project patterns unless they're demonstrably chaotic
 - No `any` types in TypeScript

@@ -67,6 +67,16 @@ Fix minimally. NEVER refactor while fixing. The goal is to fix the bug with the 
 - If a file exceeds 250 lines of logic, refactor (separate from feature work)
 - Prefer existing libraries over new dependencies
 
+## 8.5 Config Schema Compliance
+Every configuration file (`opencode.json`, `opencode.jsonc`, `tui.json`) must conform to its declared `$schema`.
+
+- **NEVER add custom underscore-prefixed keys** (`_my_key`, `_comment`, `_version`) to config files — the schema rejects them as unsupported
+- **Metadata belongs in `.opencode/`** — use `kingdom-link.txt`, `state.md`, or dedicated files under `.opencode/memory/`
+- **Need comments? Use `.jsonc` extension** — JSON with Comments is supported; don't smuggle data in underscored keys
+- **Validate after every edit** — OpenCode rejects invalid configs at startup; a single bad key blocks the entire file
+- **For agent-specific extensions** use oh-my-openagent's own config (`oh-my-openagent.jsonc`), not the base `opencode.json`
+- **When in doubt** — check the schema at `https://opencode.ai/config.json`; if a field isn't listed, don't add it
+
 ## 9. Meta-Cognition Cycle
 Every complex task follows: **PLAN → DECOMPOSE → EXECUTE → VERIFY**
 1. **PLAN**: State the goal, list sub-tasks, identify dependencies

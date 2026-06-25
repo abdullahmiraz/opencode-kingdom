@@ -1,0 +1,20 @@
+# 👑 OpenCode Kingdom — .gitignore
+
+# Backup is a local mirror — regenerate from kingdom/
+backup/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Editor
+.vscode/
+.idea/
+*.sublime-*
+
+# Temp
+*.log
+tmp/
+temp/
